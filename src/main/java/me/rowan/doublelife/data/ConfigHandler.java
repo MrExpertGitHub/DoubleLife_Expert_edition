@@ -1,7 +1,7 @@
-package me.rowanscripts.doublelife.data;
+package me.rowan.doublelife.data;
 
 
-import me.rowanscripts.doublelife.DoubleLife;
+import me.rowan.doublelife.DoubleLife;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConfigHandler {

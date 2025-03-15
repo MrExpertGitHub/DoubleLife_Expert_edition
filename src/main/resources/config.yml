@@ -1,4 +1,4 @@
-config-version: 2
+config-version: 3
 
 ####### Gamerules #########################################################################################
 #### These settings will be applied when you run the '/dl setup' command!
@@ -75,6 +75,9 @@ recipes:
 ####### Miscellaneous #########################################################################################
 #### A section for settings which don't fall under another category.
 misc:
+  ## The amount of lives everyone starts off with as well as the maximum amount.
+  max-lives: 3
+
   ## Enabling this setting will reveal everyone's soulmate
   ## upon running the '/dl randomizepairs' command.
   reveal-soulmates: false

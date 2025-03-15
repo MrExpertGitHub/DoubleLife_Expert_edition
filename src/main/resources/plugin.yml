@@ -1,6 +1,6 @@
 name: DoubleLife
 version: '${project.version}'
-main: me.rowanscripts.doublelife.DoubleLife
+main: me.rowan.doublelife.DoubleLife
 api-version: 1.19
 authors: [ Rowan ]
 description: A recreation of the mod/plugin used in the official Double Life series hosted by Grian!
@@ -13,6 +13,8 @@ commands:
     usage: /doublelife help
     aliases:
       - dl
+      - doublel
+      - dlife
 
 permissions:
   doublelife.admin:

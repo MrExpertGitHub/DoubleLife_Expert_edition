@@ -1,7 +1,7 @@
-package me.rowanscripts.doublelife.commands;
+package me.rowan.doublelife.commands;
 
-import me.rowanscripts.doublelife.DoubleLife;
-import me.rowanscripts.doublelife.data.SaveHandler;
+import me.rowan.doublelife.DoubleLife;
+import me.rowan.doublelife.data.SaveHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -62,7 +62,7 @@ public class randomizePairs {
                 if (playerOneUUID != playerTwoUUID) {
                     availablePlayers.remove(playerOneUUID);
                     availablePlayers.remove(playerTwoUUID);
-                    SaveHandler.createPair(playerOneUUID, playerTwoUUID, 3);
+                    SaveHandler.createPair(playerOneUUID, playerTwoUUID, DoubleLife.plugin.getConfig().getInt("max-lives"));
 
                     Player playerOne = Bukkit.getPlayer(playerOneUUID);
                     Player playerTwo = Bukkit.getPlayer(playerTwoUUID);

@@ -1,8 +1,7 @@
-package me.rowanscripts.doublelife.listeners;
+package me.rowan.doublelife.listeners;
 
-import me.rowanscripts.doublelife.DoubleLife;
-import me.rowanscripts.doublelife.data.ConfigHandler;
-import me.rowanscripts.doublelife.data.SaveHandler;
+import me.rowan.doublelife.DoubleLife;
+import me.rowan.doublelife.data.SaveHandler;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;

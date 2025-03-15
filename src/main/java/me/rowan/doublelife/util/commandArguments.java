@@ -1,4 +1,4 @@
-package me.rowanscripts.doublelife.util;
+package me.rowan.doublelife.util;
 
 import java.util.ArrayList;
 import java.util.List;

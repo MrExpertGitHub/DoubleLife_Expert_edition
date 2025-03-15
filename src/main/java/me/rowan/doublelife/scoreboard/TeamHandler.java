@@ -1,7 +1,7 @@
-package me.rowanscripts.doublelife.scoreboard;
+package me.rowan.doublelife.scoreboard;
 
-import me.rowanscripts.doublelife.DoubleLife;
-import me.rowanscripts.doublelife.data.SaveHandler;
+import me.rowan.doublelife.DoubleLife;
+import me.rowan.doublelife.data.SaveHandler;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,6 +18,7 @@ import java.util.UUID;
 
 public class TeamHandler implements Listener {
 
+    Team extraLivesTeam;
     Team threeLivesTeam;
     Team twoLivesTeam;
     Team oneLifeTeam;
@@ -37,10 +38,13 @@ public class TeamHandler implements Listener {
                 team.unregister();
         }
 
+        extraLivesTeam = scoreboard.registerNewTeam("extraLives");
         threeLivesTeam = scoreboard.registerNewTeam("threeLives");
         twoLivesTeam = scoreboard.registerNewTeam("twoLives");
         oneLifeTeam = scoreboard.registerNewTeam("oneLife");
         spectatorTeam = scoreboard.registerNewTeam("spectator");
+        extraLivesTeam.setColor(ChatColor.DARK_GREEN);
+        extraLivesTeam.setCanSeeFriendlyInvisibles(false);
         threeLivesTeam.setColor(ChatColor.GREEN);
         threeLivesTeam.setCanSeeFriendlyInvisibles(false);
         twoLivesTeam.setColor(ChatColor.YELLOW);
@@ -82,6 +86,9 @@ public class TeamHandler implements Listener {
             } else if (livesAmount == 3) {
                 player.setGameMode(GameMode.SURVIVAL);
                 scoreboard.getTeam("threeLives").addEntry(player.getName());
+            } else if (livesAmount >= 4) {
+                player.setGameMode(GameMode.SURVIVAL);
+                scoreboard.getTeam("extraLives").addEntry(player.getName());
             } else if (livesAmount == -1) { // for if the player's pair has been removed
                 for (Team team : scoreboard.getTeams()) {
                     if (team.hasEntry(player.getName()))

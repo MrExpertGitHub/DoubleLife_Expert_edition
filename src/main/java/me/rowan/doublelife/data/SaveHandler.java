@@ -1,9 +1,8 @@
-package me.rowanscripts.doublelife.data;
+package me.rowan.doublelife.data;
 
-import me.rowanscripts.doublelife.DoubleLife;
-import me.rowanscripts.doublelife.scoreboard.TeamHandler;
+import me.rowan.doublelife.DoubleLife;
+import me.rowan.doublelife.scoreboard.TeamHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -133,7 +132,7 @@ public class SaveHandler {
     }
 
     public static boolean setPairLivesAmount(Player pairMember, Integer amount) {
-        if (amount > 3 || amount < 0)
+        if (amount > DoubleLife.plugin.getConfig().getInt("misc.max-lives") || amount < 0)
             return false;
 
         int currentAmountOfLives = getPairLivesAmount(pairMember);

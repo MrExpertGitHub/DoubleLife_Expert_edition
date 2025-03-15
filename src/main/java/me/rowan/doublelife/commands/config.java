@@ -1,6 +1,6 @@
-package me.rowanscripts.doublelife.commands;
+package me.rowan.doublelife.commands;
 
-import me.rowanscripts.doublelife.DoubleLife;
+import me.rowan.doublelife.DoubleLife;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -86,7 +86,7 @@ public class config {
     }
 
     private static boolean argumentIsLegal(String setting) {
-        return !setting.equalsIgnoreCase("gamerules") && !setting.equalsIgnoreCase("items") && !setting.equalsIgnoreCase("items.potions") && !setting.equalsIgnoreCase("items.potions.whitelist") && !setting.equalsIgnoreCase("enchantments") && !setting.equalsIgnoreCase("recipes") && !setting.equalsIgnoreCase("misc");
+        return !setting.equalsIgnoreCase("gamerules") && !setting.equalsIgnoreCase("items") && !setting.equalsIgnoreCase("items.potions") && !setting.equalsIgnoreCase("items.potions.whitelist") && !setting.equalsIgnoreCase("enchantments") && !setting.equalsIgnoreCase("recipes") && !setting.equalsIgnoreCase("misc") && !setting.equalsIgnoreCase("config-version");
     }
 
 }

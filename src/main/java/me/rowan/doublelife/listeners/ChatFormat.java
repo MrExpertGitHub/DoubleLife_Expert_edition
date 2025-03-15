@@ -1,13 +1,9 @@
-package me.rowanscripts.doublelife.listeners;
+package me.rowan.doublelife.listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class ChatFormat implements Listener {
 

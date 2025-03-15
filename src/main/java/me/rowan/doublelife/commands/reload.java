@@ -1,7 +1,6 @@
-package me.rowanscripts.doublelife.commands;
+package me.rowan.doublelife.commands;
 
-import me.rowanscripts.doublelife.DoubleLife;
-import me.rowanscripts.doublelife.data.ConfigHandler;
+import me.rowan.doublelife.DoubleLife;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

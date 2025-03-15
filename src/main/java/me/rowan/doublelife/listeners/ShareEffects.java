@@ -1,6 +1,6 @@
-package me.rowanscripts.doublelife.listeners;
+package me.rowan.doublelife.listeners;
 
-import me.rowanscripts.doublelife.data.SaveHandler;
+import me.rowan.doublelife.data.SaveHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

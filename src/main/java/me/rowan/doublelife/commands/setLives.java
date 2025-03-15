@@ -1,6 +1,6 @@
-package me.rowanscripts.doublelife.commands;
+package me.rowan.doublelife.commands;
 
-import me.rowanscripts.doublelife.data.SaveHandler;
+import me.rowan.doublelife.data.SaveHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -45,9 +45,7 @@ public class setLives {
                 arguments.add(player.getName());
             });
         } else if (args.length == 3){
-            arguments.add("1");
-            arguments.add("2");
-            arguments.add("3");
+            arguments.add("number");
         }
 
         return arguments;

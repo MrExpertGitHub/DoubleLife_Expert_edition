@@ -1,4 +1,4 @@
-package me.rowanscripts.doublelife.commands;
+package me.rowan.doublelife.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

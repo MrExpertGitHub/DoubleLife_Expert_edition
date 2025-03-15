@@ -1,7 +1,6 @@
-package me.rowanscripts.doublelife.commands;
+package me.rowan.doublelife.commands;
 
-import me.rowanscripts.doublelife.DoubleLife;
-import me.rowanscripts.doublelife.data.ConfigHandler;
+import me.rowan.doublelife.DoubleLife;
 import org.bukkit.ChatColor;
 import org.bukkit.GameRule;
 import org.bukkit.World;
@@ -23,7 +22,6 @@ public class setup {
 
         Player player = (Player) sender;
         World world = player.getWorld();
-        String gameruleSettingsPath = "settings.gamerules.";
 
         world.setGameRule(GameRule.RANDOM_TICK_SPEED, DoubleLife.plugin.getConfig().getInt("gamerules.random-tick-speed"));
         world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, DoubleLife.plugin.getConfig().getBoolean("gamerules.spectators-generate-chunks"));

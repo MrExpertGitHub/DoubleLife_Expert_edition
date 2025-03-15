@@ -1,15 +1,14 @@
-package me.rowanscripts.doublelife;
+package me.rowan.doublelife;
 
-import me.rowanscripts.doublelife.commands.*;
-import me.rowanscripts.doublelife.data.ConfigHandler;
-import me.rowanscripts.doublelife.data.SaveHandler;
-import me.rowanscripts.doublelife.listeners.BlockBannedItems;
-import me.rowanscripts.doublelife.listeners.ChatFormat;
-import me.rowanscripts.doublelife.listeners.PairHealth;
-import me.rowanscripts.doublelife.listeners.ShareEffects;
-import me.rowanscripts.doublelife.scoreboard.TeamHandler;
-import me.rowanscripts.doublelife.util.commandArguments;
-import me.rowanscripts.doublelife.util.bStatsCode;
+import me.rowan.doublelife.commands.*;
+import me.rowan.doublelife.data.ConfigHandler;
+import me.rowan.doublelife.data.SaveHandler;
+import me.rowan.doublelife.listeners.BlockBannedItems;
+import me.rowan.doublelife.listeners.ChatFormat;
+import me.rowan.doublelife.listeners.PairHealth;
+import me.rowan.doublelife.listeners.ShareEffects;
+import me.rowan.doublelife.scoreboard.TeamHandler;
+import me.rowan.doublelife.util.commandArguments;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,7 +34,7 @@ public final class DoubleLife extends JavaPlugin {
 
     public static Collection<NamespacedKey> recipeKeys;
 
-    int configVersion = 2;
+    int configVersion = 3;
 
     public void createRecipes(){
 
@@ -93,7 +92,7 @@ public final class DoubleLife extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        int pluginId = bStatsCode.get();
+        int pluginId = 16819;
         new Metrics(plugin, pluginId);
 
         ConfigHandler = new ConfigHandler();
@@ -164,7 +163,7 @@ public final class DoubleLife extends JavaPlugin {
         @Override
         public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-            if ((label.equalsIgnoreCase("dl") || label.equalsIgnoreCase("doublelife")) && sender.hasPermission("doublelife.admin")){
+            if (command.getName().equalsIgnoreCase("doublelife") && sender.hasPermission("doublelife.admin")){
                 if (args.length == 1)
                     return commandArguments.getAdministrativeCommands();
 

@@ -1,4 +1,4 @@
-package me.rowanscripts.doublelife;
+package me.rowan.doublelife;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

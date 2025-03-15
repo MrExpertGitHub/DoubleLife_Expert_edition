@@ -1,6 +1,6 @@
-package me.rowanscripts.doublelife.listeners;
+package me.rowan.doublelife.listeners;
 
-import me.rowanscripts.doublelife.DoubleLife;
+import me.rowan.doublelife.DoubleLife;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -116,8 +116,10 @@ public class BlockBannedItems implements Listener {
         ItemStack nerfedItem = new ItemStack(resultItem.getType());
 
         ItemMeta resultItemMeta = resultItem.getItemMeta();
+        if (resultItemMeta == null) return;
         if (resultItemMeta.hasDisplayName()){
             ItemMeta nerfedItemMeta = nerfedItem.getItemMeta();
+            if (nerfedItemMeta == null) return;
             nerfedItemMeta.setDisplayName(resultItemMeta.getDisplayName());
             nerfedItem.setItemMeta(nerfedItemMeta);
         }
@@ -125,6 +127,7 @@ public class BlockBannedItems implements Listener {
         if (resultItem.getType() != Material.ENCHANTED_BOOK) {
             Damageable resultItemDamageAble = (Damageable) resultItem.getItemMeta();
             Damageable nerfedItemDamageAble = (Damageable) nerfedItem.getItemMeta();
+            if (nerfedItemDamageAble == null) return;
             nerfedItemDamageAble.setDamage(resultItemDamageAble.getDamage());
             nerfedItem.setItemMeta(nerfedItemDamageAble);
         }
