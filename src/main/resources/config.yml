@@ -10,6 +10,7 @@ gamerules:
   players-sleeping-percentage: 100
   random-tick-speed: 6
   spawn-radius: 0
+  do-day-cycles: true
 
 
 
@@ -31,9 +32,14 @@ items:
       - AWKWARD
       - MUNDANE
       - INVISIBILITY
-      - SPEED
+      - SWIFTNESS
       - FIRE_RESISTANCE
       - NIGHT_VISION
+      - LEAPING
+      - INFESTED
+      - OOZING
+      - SLOW_FALLING
+      - REGENERATION
 
 
 
@@ -45,7 +51,7 @@ items:
 #### You may change this here if you'd like.
 enchantments:
   enchantment-table-craftable: false
-  enchantment-table-breakable: false
+  enchantment-table-breakable: true
   bookshelves-craftable: false
 
   ## Enabling this setting will make all dropped Enchantment Tables unbreakable when dropped as an item.
@@ -67,21 +73,46 @@ recipes:
   craftable-name-tag: true
   craftable-saddle: true
   paper-tnt: true
+  craftable-experience-bottle: true
+  craftable-sculk-sensor: true
+
+####### Lives #########################################################################################
+#### These are the settings that allow you to control the lives of the players
+lives:
+  ## The amount of lives everyone starts off with as well as the maximum amount.
+  max-lives: 6
+
+  ## The amount of lives when a player turn to lime
+  lime-live-start-in: 5
+
+  ## The amount of lives when a player turn to yellow
+  yellow-live-start-in: 3
+
+  ## The amount of lives when a player turn to red
+  red-live-start-in: 1
 
 
 
+soulmates:
+  ## If your soulmate dies while you're offline,
+  ## you will be killed by the plugin upon rejoining
+  ## when this setting is enabled.
+  kill-soulmate-on-join-if-offline-during-death: false
+
+  ## Enabling this setting will reveal everyone's soulmate
+  ## upon running the '/dl randomizepairs' command.
+  reveal-soulmates: true
+
+  ## Links the hearths of the players, so if one of them takes damage, the other also does
+  link-hearths: false
+
+  ## Links the effects of the plays, so if one of them gets one, the other also does
+  link-effects: false
 
 
 ####### Miscellaneous #########################################################################################
 #### A section for settings which don't fall under another category.
 misc:
-  ## The amount of lives everyone starts off with as well as the maximum amount.
-  max-lives: 3
-
-  ## Enabling this setting will reveal everyone's soulmate
-  ## upon running the '/dl randomizepairs' command.
-  reveal-soulmates: false
-
   ## Enabling this setting will cause all players to have their spawnpoint
   ## set to the location they get teleported to after running the
   ## '/dl distributeplayers' command.
@@ -96,13 +127,8 @@ misc:
   ## every player can hear it, no matter their location.
   global-explosion-sound-on-final-death: true
 
-  ## If your soulmate dies while you're offline,
-  ## you will be killed by the plugin upon rejoining
-  ## when this setting is enabled.
-  kill-soulmate-on-join-if-offline-during-death: false
-
   ## Will only be applied when running the '/dl setup' command!
   border-size: 700.0
 
   ## Kills all existing villagers and prevents new ones from spawning when enabled.
-  kill-villagers: false
+  kill-villagers: true

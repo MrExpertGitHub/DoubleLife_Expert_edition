@@ -62,12 +62,12 @@ public class randomizePairs {
                 if (playerOneUUID != playerTwoUUID) {
                     availablePlayers.remove(playerOneUUID);
                     availablePlayers.remove(playerTwoUUID);
-                    SaveHandler.createPair(playerOneUUID, playerTwoUUID, DoubleLife.plugin.getConfig().getInt("max-lives"));
+                    SaveHandler.createPair(playerOneUUID, playerTwoUUID, DoubleLife.plugin.getConfig().getInt("lives.max-lives"));
 
                     Player playerOne = Bukkit.getPlayer(playerOneUUID);
                     Player playerTwo = Bukkit.getPlayer(playerTwoUUID);
                     if (playerOne != null && playerTwo != null) {
-                        if (DoubleLife.plugin.getConfig().getBoolean("misc.reveal-soulmates")) {
+                        if (DoubleLife.plugin.getConfig().getBoolean("soulmates.reveal-soulmates")) {
                             playerOne.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + playerTwo.getName(), null, 10, 100, 10);
                             playerOne.playSound(playerOne, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
                             playerTwo.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + playerOne.getName(), null, 10, 100, 10);

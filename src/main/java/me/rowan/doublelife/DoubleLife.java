@@ -82,6 +82,30 @@ public final class DoubleLife extends JavaPlugin {
             recipeKeys.add(sporeBlossomKey);
         }
 
+        if (plugin.getConfig().getBoolean("recipes.craftable-experience-bottle")) {
+            ItemStack experienceBottle = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
+            NamespacedKey experienceBottleKey = new NamespacedKey(plugin, "experience-bottle");
+            ShapedRecipe experienceBottleRecipe = new ShapedRecipe(experienceBottleKey, experienceBottle);
+            experienceBottleRecipe.shape(" G ", "GLG", " G ");
+            experienceBottleRecipe.setIngredient('G', Material.GLASS_PANE);
+            experienceBottleRecipe.setIngredient('L', Material.LAPIS_LAZULI);
+            Bukkit.addRecipe(experienceBottleRecipe);
+            recipeKeys.add(experienceBottleKey);
+        }
+
+        if (plugin.getConfig().getBoolean("recipes.craftable-sculk-sensor")) {
+            ItemStack sculkSensor = new ItemStack(Material.SCULK_SENSOR, 1);
+            NamespacedKey sculkSensorKey = new NamespacedKey(plugin, "sculk-sensor");
+            ShapedRecipe sculkSensorRecipe = new ShapedRecipe(sculkSensorKey, sculkSensor);
+            sculkSensorRecipe.shape("   ", "DHD", "OOO");
+            sculkSensorRecipe.setIngredient('H', Material.HAY_BLOCK);
+            sculkSensorRecipe.setIngredient('D', Material.DIAMOND);
+            sculkSensorRecipe.setIngredient('O', Material.OBSIDIAN);
+            Bukkit.addRecipe(sculkSensorRecipe);
+            recipeKeys.add(sculkSensorKey);
+        }
+
+
         for (Player player : Bukkit.getOnlinePlayers())
             for (NamespacedKey key : recipeKeys)
                 player.discoverRecipe(key);
@@ -103,7 +127,9 @@ public final class DoubleLife extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new TeamHandler(), plugin);
         Bukkit.getPluginManager().registerEvents(new PairHealth(), plugin);
-        Bukkit.getPluginManager().registerEvents(new ShareEffects(), plugin);
+        if (plugin.getConfig().getBoolean("soulmates.link-effects")) {
+            Bukkit.getPluginManager().registerEvents(new ShareEffects(), plugin);
+        }
         Bukkit.getPluginManager().registerEvents(new BlockBannedItems(), plugin);
         Bukkit.getPluginManager().registerEvents(new ChatFormat(), plugin);
 
@@ -112,14 +138,14 @@ public final class DoubleLife extends JavaPlugin {
         recipeKeys = new ArrayList<>();
         createRecipes();
 
-        new UpdateChecker(plugin, 106141).getVersion(version -> {
+        /*new UpdateChecker(plugin, 106141).getVersion(version -> {
             if (this.getDescription().getVersion().equals(version)) {
                 getLogger().info("The plugin is up to date!");
             } else {
                 getLogger().severe("There is a newer version available!  Running: " + this.getDescription().getVersion() + "  Newest: " + version);
                 getLogger().severe("You may download it here: https://modrinth.com/plugin/double-life");
             }
-        });
+        });*/
 
         if (getConfig().getInt("config-version") != configVersion) {
             getLogger().warning("Your configuration file is " + (this.configVersion - getConfig().getInt("config-version")) + " version(s) behind!");

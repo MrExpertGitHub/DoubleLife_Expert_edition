@@ -18,10 +18,10 @@ import java.util.UUID;
 
 public class TeamHandler implements Listener {
 
-    Team extraLivesTeam;
-    Team threeLivesTeam;
-    Team twoLivesTeam;
-    Team oneLifeTeam;
+    Team greenLivesTeam;
+    Team limeLivesTeam;
+    Team yellowLivesTeam;
+    Team redLifeTeam;
     Team spectatorTeam;
 
     public static Scoreboard scoreboard;
@@ -38,19 +38,19 @@ public class TeamHandler implements Listener {
                 team.unregister();
         }
 
-        extraLivesTeam = scoreboard.registerNewTeam("extraLives");
-        threeLivesTeam = scoreboard.registerNewTeam("threeLives");
-        twoLivesTeam = scoreboard.registerNewTeam("twoLives");
-        oneLifeTeam = scoreboard.registerNewTeam("oneLife");
+        greenLivesTeam = scoreboard.registerNewTeam("greenLives");
+        limeLivesTeam = scoreboard.registerNewTeam("limeLives");
+        yellowLivesTeam = scoreboard.registerNewTeam("yellowLives");
+        redLifeTeam = scoreboard.registerNewTeam("redLifeTeam");
         spectatorTeam = scoreboard.registerNewTeam("spectator");
-        extraLivesTeam.setColor(ChatColor.DARK_GREEN);
-        extraLivesTeam.setCanSeeFriendlyInvisibles(false);
-        threeLivesTeam.setColor(ChatColor.GREEN);
-        threeLivesTeam.setCanSeeFriendlyInvisibles(false);
-        twoLivesTeam.setColor(ChatColor.YELLOW);
-        twoLivesTeam.setCanSeeFriendlyInvisibles(false);
-        oneLifeTeam.setColor(ChatColor.RED);
-        oneLifeTeam.setCanSeeFriendlyInvisibles(false);
+        greenLivesTeam.setColor(ChatColor.DARK_GREEN);
+        greenLivesTeam.setCanSeeFriendlyInvisibles(false);
+        limeLivesTeam.setColor(ChatColor.GREEN);
+        limeLivesTeam.setCanSeeFriendlyInvisibles(false);
+        yellowLivesTeam.setColor(ChatColor.YELLOW);
+        yellowLivesTeam.setCanSeeFriendlyInvisibles(false);
+        redLifeTeam.setColor(ChatColor.RED);
+        redLifeTeam.setCanSeeFriendlyInvisibles(false);
         spectatorTeam.setColor(ChatColor.GRAY);
 
         Set<Team> teamSet = scoreboard.getTeams();
@@ -70,31 +70,33 @@ public class TeamHandler implements Listener {
 
     public static void modifyTeamAndGameMode(Player player, Integer livesAmount) {
         if (player != null){
-            if (livesAmount == 0) {
+            if (livesAmount == -1) { // for if the player's pair has been removed
+                for (Team team : scoreboard.getTeams()) {
+                    if (team.hasEntry(player.getName()))
+                        team.removeEntry(player.getName());
+                }
+            }
+            else if (livesAmount == 0) {
+                player.setHealth(0);
                 player.setGameMode(GameMode.SPECTATOR);
                 scoreboard.getTeam("spectator").addEntry(player.getName());
                 if (DoubleLife.plugin.getConfig().getBoolean("misc.ban-players-upon-losing")) {
                     Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), "You've been banned because the server owner has configured the server to do so after you lose all of your lives!", null, "DoubleLife");
                     player.kickPlayer("You've been banned because you're out of lives!");
                 }
-            } else if (livesAmount == 1) {
+            } else if (0 < livesAmount && livesAmount <= DoubleLife.plugin.getConfig().getInt("lives.red-live-start-in")) {
                 player.setGameMode(GameMode.SURVIVAL);
-                scoreboard.getTeam("oneLife").addEntry(player.getName());
-            } else if (livesAmount == 2) {
+                scoreboard.getTeam("redLifeTeam").addEntry(player.getName());
+            } else if (livesAmount <= DoubleLife.plugin.getConfig().getInt("lives.yellow-live-start-in")) {
                 player.setGameMode(GameMode.SURVIVAL);
-                scoreboard.getTeam("twoLives").addEntry(player.getName());
-            } else if (livesAmount == 3) {
+                scoreboard.getTeam("yellowLives").addEntry(player.getName());
                 player.setGameMode(GameMode.SURVIVAL);
-                scoreboard.getTeam("threeLives").addEntry(player.getName());
-            } else if (livesAmount >= 4) {
+            } else if (livesAmount <= DoubleLife.plugin.getConfig().getInt("lives.lime-live-start-in")) {
                 player.setGameMode(GameMode.SURVIVAL);
-                scoreboard.getTeam("extraLives").addEntry(player.getName());
-            } else if (livesAmount == -1) { // for if the player's pair has been removed
-                for (Team team : scoreboard.getTeams()) {
-                    if (team.hasEntry(player.getName()))
-                        team.removeEntry(player.getName());
-                }
+                scoreboard.getTeam("limeLives").addEntry(player.getName());
+            } else if (livesAmount > DoubleLife.plugin.getConfig().getInt("lives.lime-live-start-in")) {
                 player.setGameMode(GameMode.SURVIVAL);
+                scoreboard.getTeam("greenLives").addEntry(player.getName());
             }
         }
     }

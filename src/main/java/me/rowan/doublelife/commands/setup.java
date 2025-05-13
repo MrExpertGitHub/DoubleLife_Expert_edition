@@ -30,6 +30,7 @@ public class setup {
         world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, DoubleLife.plugin.getConfig().getBoolean("gamerules.announce-advancements"));
         world.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, DoubleLife.plugin.getConfig().getInt("gamerules.players-sleeping-percentage"));
         world.setGameRule(GameRule.SPAWN_RADIUS, DoubleLife.plugin.getConfig().getInt("gamerules.spawn-radius"));
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, DoubleLife.plugin.getConfig().getBoolean("gamerules.do-day-cycles"));
 
         world.setSpawnLocation(player.getLocation());
         world.getWorldBorder().setCenter(player.getLocation());

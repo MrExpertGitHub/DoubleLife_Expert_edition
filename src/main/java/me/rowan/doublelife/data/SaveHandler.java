@@ -132,7 +132,7 @@ public class SaveHandler {
     }
 
     public static boolean setPairLivesAmount(Player pairMember, Integer amount) {
-        if (amount > DoubleLife.plugin.getConfig().getInt("misc.max-lives") || amount < 0)
+        if (amount > DoubleLife.plugin.getConfig().getInt("lives.max-lives") || amount < 0)
             return false;
 
         int currentAmountOfLives = getPairLivesAmount(pairMember);
