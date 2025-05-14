@@ -188,7 +188,7 @@ public class BlockBannedItems implements Listener {
     public void removeHelmets(InventoryClickEvent event) {
         ItemStack item = event.getCurrentItem();
         if (item != null && DoubleLife.plugin.getConfig().getBoolean("items.ban-helmets")) {
-            if (item.getType() == Material.CHAINMAIL_HELMET || item.getType() == Material.IRON_HELMET || item.getType() == Material.LEATHER_HELMET || item.getType() == Material.DIAMOND_HELMET || item.getType() == Material.GOLDEN_HELMET || item.getType() == Material.TURTLE_HELMET){
+            if (item.getType() == Material.NETHERITE_HELMET || item.getType() == Material.CHAINMAIL_HELMET || item.getType() == Material.IRON_HELMET || item.getType() == Material.LEATHER_HELMET || item.getType() == Material.DIAMOND_HELMET || item.getType() == Material.GOLDEN_HELMET || item.getType() == Material.TURTLE_HELMET){
                 event.setCancelled(true);
                 item.setAmount(0);
                 for (HumanEntity viewer : event.getInventory().getViewers()) {

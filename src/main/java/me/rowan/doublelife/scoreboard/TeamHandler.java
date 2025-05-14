@@ -77,7 +77,6 @@ public class TeamHandler implements Listener {
                 }
             }
             else if (livesAmount == 0) {
-                player.setHealth(0);
                 player.setGameMode(GameMode.SPECTATOR);
                 scoreboard.getTeam("spectator").addEntry(player.getName());
                 if (DoubleLife.plugin.getConfig().getBoolean("misc.ban-players-upon-losing")) {

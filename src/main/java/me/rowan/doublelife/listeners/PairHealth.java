@@ -57,7 +57,13 @@ public class PairHealth implements Listener {
         SaveHandler.setPairLivesAmount(playerWhoDied, (currentLivesAmount - 1));
 
         if (currentLivesAmount - 1 == 0) {
-            Bukkit.broadcastMessage(ChatColor.GRAY + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.GRAY + soulmate.getPlayerListName() + ChatColor.RESET + " run out of lifes!");
+            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
+                if (soulmate != null) {
+                    soulmate.setHealth(0);
+                    Bukkit.broadcastMessage(ChatColor.GRAY + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.GRAY + soulmate.getPlayerListName() + ChatColor.RESET + " run out of lifes!");
+                }
+            }, 20);
+
 
             if (DoubleLife.plugin.getConfig().getBoolean("misc.global-explosion-sound-on-final-death")){
                 for (Player player : Bukkit.getOnlinePlayers())

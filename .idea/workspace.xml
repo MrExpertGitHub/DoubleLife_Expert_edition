@@ -4,11 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de97771f-b424-452a-aa46-97af6edde9ed" name="Changes" comment="The amount of lives the players change color now can be set with the lime-live-start-in, the yellow-live-start-in and the red-live-start-in parameters.&#10;Players now can be &quot;weakly linked&quot; to each other by setting the   link-hearths and the link-effects parameters to false.&#10;Organized the config.yml file.&#10;Added custom messages, that gets broadcasted when a team changes color.&#10;Added crafting recipes to the experience bottle and the sculk sensor.&#10;Removed the update checker feature, because it was annoying." />
+    <list default="true" id="de97771f-b424-452a-aa46-97af6edde9ed" name="Changes" comment="Fixed stuff">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/rowan/doublelife/listeners/BlockBannedItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/rowan/doublelife/listeners/BlockBannedItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/rowan/doublelife/listeners/PairHealth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/rowan/doublelife/listeners/PairHealth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/rowan/doublelife/scoreboard/TeamHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/rowan/doublelife/scoreboard/TeamHandler.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -111,12 +124,31 @@
       <option name="project" value="LOCAL" />
       <updated>1747162212189</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Created separate file for the recipes">
+      <option name="closed" value="true" />
+      <created>1747215099264</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1747215099265</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added the option to ban Netherite armor and Netherite weapons">
+      <option name="closed" value="true" />
+      <created>1747215145985</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747215145985</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge remote-tracking branch 'origin/master'" />
     <MESSAGE value="The amount of lives the players change color now can be set with the lime-live-start-in, the yellow-live-start-in and the red-live-start-in parameters.&#10;Players now can be &quot;weakly linked&quot; to each other by setting the   link-hearths and the link-effects parameters to false.&#10;Organized the config.yml file.&#10;Added custom messages, that gets broadcasted when a team changes color.&#10;Added crafting recipes to the experience bottle and the sculk sensor.&#10;Removed the update checker feature, because it was annoying." />
-    <option name="LAST_COMMIT_MESSAGE" value="The amount of lives the players change color now can be set with the lime-live-start-in, the yellow-live-start-in and the red-live-start-in parameters.&#10;Players now can be &quot;weakly linked&quot; to each other by setting the   link-hearths and the link-effects parameters to false.&#10;Organized the config.yml file.&#10;Added custom messages, that gets broadcasted when a team changes color.&#10;Added crafting recipes to the experience bottle and the sculk sensor.&#10;Removed the update checker feature, because it was annoying." />
+    <MESSAGE value="Created separate file for the recipes" />
+    <MESSAGE value="Added the option to ban Netherite armor and Netherite weapons" />
+    <MESSAGE value="Fixed stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed stuff" />
   </component>
 </project>
