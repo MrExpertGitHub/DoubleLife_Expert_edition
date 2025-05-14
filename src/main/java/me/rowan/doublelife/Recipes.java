@@ -17,8 +17,10 @@ public class Recipes {
             ItemStack saddle = new ItemStack(Material.SADDLE, 1);
             NamespacedKey saddleKey = new NamespacedKey(DoubleLife.plugin, "saddle");
             ShapedRecipe saddleRecipe = new ShapedRecipe(saddleKey, saddle);
-            saddleRecipe.shape("LLL", " X ", "X X");
-            saddleRecipe.setIngredient('X', Material.LEATHER);
+            saddleRecipe.shape("LLL", "S S", "I I");
+            saddleRecipe.setIngredient('L', Material.LEATHER);
+            saddleRecipe.setIngredient('I', Material.IRON_INGOT);
+            saddleRecipe.setIngredient('S', Material.STRING);
             Bukkit.addRecipe(saddleRecipe);
             DoubleLife.recipeKeys.add(saddleKey);
         }
@@ -85,13 +87,16 @@ public class Recipes {
             NamespacedKey slimeBallKey = new NamespacedKey(DoubleLife.plugin, "slime-ball");
             ShapelessRecipe slimeBallRecipe = new ShapelessRecipe(slimeBallKey, slimeBall);
             slimeBallRecipe.addIngredient(Material.LIME_DYE);
+            slimeBallRecipe.addIngredient(Material.LIME_DYE);
+            slimeBallRecipe.addIngredient(Material.LIME_DYE);
+            slimeBallRecipe.addIngredient(Material.LIME_DYE);
             Bukkit.addRecipe(slimeBallRecipe);
             DoubleLife.recipeKeys.add(slimeBallKey);
         }
 
         if (DoubleLife.plugin.getConfig().getBoolean("recipes.convert-gravel-and-sand")) {
 
-            ItemStack sand = new ItemStack(Material.SAND, 1);
+            ItemStack sand = new ItemStack(Material.SAND, 8);
             NamespacedKey sandKey = new NamespacedKey(DoubleLife.plugin, "sand");
             ShapedRecipe sandRecipe = new ShapedRecipe(sandKey, sand);
             sandRecipe.shape("GGG", "GDG", "GGG");
@@ -100,7 +105,7 @@ public class Recipes {
             Bukkit.addRecipe(sandRecipe);
             DoubleLife.recipeKeys.add(sandKey);
 
-            ItemStack gravel = new ItemStack(Material.GRAVEL, 1);
+            ItemStack gravel = new ItemStack(Material.GRAVEL, 8);
             NamespacedKey gravelKey = new NamespacedKey(DoubleLife.plugin, "gravel");
             ShapedRecipe gravelRecipe = new ShapedRecipe(gravelKey, gravel);
             gravelRecipe.shape("SSS", "SDS", "SSS");
