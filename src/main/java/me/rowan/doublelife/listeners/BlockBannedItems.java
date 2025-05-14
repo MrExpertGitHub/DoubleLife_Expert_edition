@@ -35,17 +35,17 @@ public class BlockBannedItems implements Listener {
     public void discoverRecipes(PlayerJoinEvent event){event.getPlayer().discoverRecipes(DoubleLife.recipeKeys); currentWorld = event.getPlayer().getWorld();}
 
     public static void startKillVillagersLoop() {
-        if (!DoubleLife.plugin.getConfig().getBoolean("misc.kill-villagers"))
-            return;
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(DoubleLife.plugin, () -> {
-            if (currentWorld != null) {
-                for (Entity entity : currentWorld.getEntities()) {
-                    if (entity.getType() == EntityType.VILLAGER) {
-                        entity.remove();
+        if (DoubleLife.plugin.getConfig().getBoolean("misc.kill-villagers")) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(DoubleLife.plugin, () -> {
+                if (currentWorld != null) {
+                    for (Entity entity : currentWorld.getEntities()) {
+                        if (entity.getType() == EntityType.VILLAGER) {
+                            entity.remove();
+                        }
                     }
                 }
-            }
-        }, 100, 50);
+            }, 100, 50);
+        }
     }
 
     @EventHandler
@@ -66,44 +66,47 @@ public class BlockBannedItems implements Listener {
 
     @EventHandler
     public void blockVillagerSpawns(EntitySpawnEvent event) {
-        if (!DoubleLife.plugin.getConfig().getBoolean("misc.kill-villagers"))
-            return;
-        Entity entity = event.getEntity();
-        if (entity.getType() == EntityType.VILLAGER || entity.getType() == EntityType.ZOMBIE_VILLAGER)
-            event.setCancelled(true);
+        if (DoubleLife.plugin.getConfig().getBoolean("misc.kill-villagers")) {
+            Entity entity = event.getEntity();
+            if (entity.getType() == EntityType.VILLAGER || entity.getType() == EntityType.ZOMBIE_VILLAGER)
+                event.setCancelled(true);
+        }
     }
 
     @EventHandler
-    public void blockEnchantmentTableRecipe(CraftItemEvent event) {
+    public void blockBannedItemRecipes(CraftItemEvent event) {
         Material recipeType = event.getRecipe().getResult().getType();
         if (recipeType == Material.ENCHANTING_TABLE && !DoubleLife.plugin.getConfig().getBoolean("enchantments.enchantment-table-craftable"))
             event.setCancelled(true);
         else if (recipeType == Material.BOOKSHELF && !DoubleLife.plugin.getConfig().getBoolean("enchantments.bookshelves-craftable"))
+            event.setCancelled(true);
+        else if ((recipeType == Material.NETHERITE_HELMET || recipeType == Material.NETHERITE_CHESTPLATE || recipeType == Material.NETHERITE_LEGGINGS || recipeType == Material.NETHERITE_BOOTS) && !DoubleLife.plugin.getConfig().getBoolean("items.ban-netherite-armor"))
+            event.setCancelled(true);
+        else if ((recipeType == Material.NETHERITE_SWORD || recipeType == Material.NETHERITE_AXE) && DoubleLife.plugin.getConfig().getBoolean("items.ban-netherite-weapons"))
             event.setCancelled(true);
     }
 
     @SuppressWarnings("unchecked")
     @EventHandler
     public void blockBannedPotions(InventoryClickEvent event) {
-        if (!DoubleLife.plugin.getConfig().getBoolean("items.potions.whitelist-enabled"))
-            return;
+        if (DoubleLife.plugin.getConfig().getBoolean("items.potions.whitelist-enabled")) {
+            ItemStack itemStack = event.getCurrentItem();
 
-        ItemStack itemStack = event.getCurrentItem();
-        if (itemStack == null)
-            return;
-
-        if (itemStack.getType() == Material.POTION || itemStack.getType() == Material.SPLASH_POTION) {
-            PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
-            PotionType potionType = potionMeta.getBasePotionData().getType();
-            List<String> potionWhitelist = (List<String>) DoubleLife.plugin.getConfig().getList("items.potions.whitelist");
-            if (potionWhitelist == null) return;
-            System.out.println(potionType);
-            if (!potionWhitelist.contains(potionType.toString())) {
-                event.setCancelled(true);
-                itemStack.setType(Material.GLASS_BOTTLE);
-                for (HumanEntity viewer : event.getClickedInventory().getViewers()) {
-                    Player cheater = (Player) viewer;
-                    cheater.sendMessage(ChatColor.DARK_RED + "That potion is banned on this server!");
+            if (itemStack != null) {
+                if (itemStack.getType() == Material.POTION || itemStack.getType() == Material.SPLASH_POTION) {
+                    PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
+                    PotionType potionType = potionMeta.getBasePotionData().getType();
+                    List<String> potionWhitelist = (List<String>) DoubleLife.plugin.getConfig().getList("items.potions.whitelist");
+                    if (potionWhitelist == null) return;
+                    System.out.println(potionType);
+                    if (!potionWhitelist.contains(potionType.toString())) {
+                        event.setCancelled(true);
+                        itemStack.setType(Material.GLASS_BOTTLE);
+                        for (HumanEntity viewer : event.getClickedInventory().getViewers()) {
+                            Player cheater = (Player) viewer;
+                            cheater.sendMessage(ChatColor.DARK_RED + "That potion is banned on this server!");
+                        }
+                    }
                 }
             }
         }
@@ -157,25 +160,25 @@ public class BlockBannedItems implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void modifyIllegalEnchantments(PrepareAnvilEvent event) {
-        if (!DoubleLife.plugin.getConfig().getBoolean("enchantments.nerf-enchantment-stacking"))
-            return;
+        if (DoubleLife.plugin.getConfig().getBoolean("enchantments.nerf-enchantment-stacking")) {
+            ItemStack resultItem = event.getResult();
 
-        ItemStack resultItem = event.getResult();
-        if (resultItem == null)
-            return;
+            if (resultItem != null) {
 
-        if (resultItem.getType() == Material.ENCHANTED_BOOK){
-            EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) resultItem.getItemMeta();
-            if (enchantmentStorageMeta != null) {
-                Map<Enchantment, Integer> enchantments = enchantmentStorageMeta.getStoredEnchants();
-                nerfEnchantmentLevel(enchantments, event.getInventory().getViewers(), resultItem, event);
-            }
-        } else {
-            ItemMeta itemMeta = resultItem.getItemMeta();
-            if (itemMeta != null){
-                if (!itemMeta.getEnchants().isEmpty()){
-                    Map<Enchantment, Integer> enchantments = itemMeta.getEnchants();
-                    nerfEnchantmentLevel(enchantments, event.getInventory().getViewers(), resultItem, event);
+                if (resultItem.getType() == Material.ENCHANTED_BOOK) {
+                    EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) resultItem.getItemMeta();
+                    if (enchantmentStorageMeta != null) {
+                        Map<Enchantment, Integer> enchantments = enchantmentStorageMeta.getStoredEnchants();
+                        nerfEnchantmentLevel(enchantments, event.getInventory().getViewers(), resultItem, event);
+                    }
+                } else {
+                    ItemMeta itemMeta = resultItem.getItemMeta();
+                    if (itemMeta != null) {
+                        if (!itemMeta.getEnchants().isEmpty()) {
+                            Map<Enchantment, Integer> enchantments = itemMeta.getEnchants();
+                            nerfEnchantmentLevel(enchantments, event.getInventory().getViewers(), resultItem, event);
+                        }
+                    }
                 }
             }
         }
@@ -183,17 +186,47 @@ public class BlockBannedItems implements Listener {
 
     @EventHandler
     public void removeHelmets(InventoryClickEvent event) {
-        if (!DoubleLife.plugin.getConfig().getBoolean("items.ban-helmets"))
-            return;
-
         ItemStack item = event.getCurrentItem();
-        if (item != null) {
-            if (item.getType() == Material.CHAINMAIL_HELMET || item.getType() == Material.IRON_HELMET || item.getType() == Material.LEATHER_HELMET || item.getType() == Material.DIAMOND_HELMET || item.getType() == Material.GOLDEN_HELMET || item.getType() == Material.TURTLE_HELMET || item.getType() == Material.NETHERITE_HELMET){
+        if (item != null && DoubleLife.plugin.getConfig().getBoolean("items.ban-helmets")) {
+            if (item.getType() == Material.CHAINMAIL_HELMET || item.getType() == Material.IRON_HELMET || item.getType() == Material.LEATHER_HELMET || item.getType() == Material.DIAMOND_HELMET || item.getType() == Material.GOLDEN_HELMET || item.getType() == Material.TURTLE_HELMET){
                 event.setCancelled(true);
                 item.setAmount(0);
                 for (HumanEntity viewer : event.getInventory().getViewers()) {
                     Player cheater = (Player) viewer;
                     cheater.sendMessage(ChatColor.DARK_RED + "Helmets are banned!");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void removeNetheriteArmor(InventoryClickEvent event) {
+        ItemStack item = event.getCurrentItem();
+        if (item != null  && DoubleLife.plugin.getConfig().getBoolean("items.ban-netherite-armor")) {
+            if (item.getType() == Material.NETHERITE_HELMET || item.getType() == Material.NETHERITE_CHESTPLATE || item.getType() == Material.NETHERITE_LEGGINGS || item.getType() == Material.NETHERITE_BOOTS){
+                event.setCancelled(true);
+                item.setAmount(0);
+                for (HumanEntity viewer : event.getInventory().getViewers()) {
+                    Player cheater = (Player) viewer;
+                    cheater.sendMessage(ChatColor.DARK_RED + "Netherite armor is banned!");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void removeNetheriteWeapons(InventoryClickEvent event) {
+        if (!DoubleLife.plugin.getConfig().getBoolean("items.ban-netherite-weapons"))
+            return;
+
+        ItemStack item = event.getCurrentItem();
+        if (item != null) {
+            if (item.getType() == Material.NETHERITE_AXE || item.getType() == Material.NETHERITE_SWORD){
+                event.setCancelled(true);
+                item.setAmount(0);
+                for (HumanEntity viewer : event.getInventory().getViewers()) {
+                    Player cheater = (Player) viewer;
+                    cheater.sendMessage(ChatColor.DARK_RED + "Netherite weapons are banned!");
                 }
             }
         }

@@ -22,6 +22,8 @@ gamerules:
 items:
   ban-helmets: true
   ban-god-apples: true
+  ban-netherite-armor: true
+  ban-netherite-weapons: true
 
   ## You may whitelist potions by adding their enum name to the list.
   ## For help, refer to the wiki: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
@@ -75,6 +77,8 @@ recipes:
   paper-tnt: true
   craftable-experience-bottle: true
   craftable-sculk-sensor: true
+  craftable-slime: true
+  convert-gravel-and-sand: true
 
 ####### Lives #########################################################################################
 #### These are the settings that allow you to control the lives of the players
