@@ -11,15 +11,11 @@ import me.rowan.doublelife.scoreboard.TeamHandler;
 import me.rowan.doublelife.util.commandArguments;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -36,81 +32,7 @@ public final class DoubleLife extends JavaPlugin {
 
     int configVersion = 3;
 
-    public void createRecipes(){
 
-        if (plugin.getConfig().getBoolean("recipes.craftable-saddle")) {
-            ItemStack saddle = new ItemStack(Material.SADDLE, 1);
-            NamespacedKey saddleKey = new NamespacedKey(plugin, "saddle");
-            ShapedRecipe saddleRecipe = new ShapedRecipe(saddleKey, saddle);
-            saddleRecipe.shape("LLL", " X ", "X X");
-            saddleRecipe.setIngredient('X', Material.LEATHER);
-            Bukkit.addRecipe(saddleRecipe);
-            recipeKeys.add(saddleKey);
-        }
-
-        if (plugin.getConfig().getBoolean("recipes.craftable-name-tag")) {
-            ItemStack nameTag = new ItemStack(Material.NAME_TAG, 1);
-            NamespacedKey nameTagKey = new NamespacedKey(plugin, "name_tag");
-            ShapedRecipe nameTagRecipe = new ShapedRecipe(nameTagKey, nameTag);
-            nameTagRecipe.shape("XXX", " S ", " P ");
-            nameTagRecipe.setIngredient('S', Material.STRING);
-            nameTagRecipe.setIngredient('P', Material.PAPER);
-            Bukkit.addRecipe(nameTagRecipe);
-            recipeKeys.add(nameTagKey);
-        }
-
-        if (plugin.getConfig().getBoolean("recipes.paper-tnt")) {
-            ItemStack TNT = new ItemStack(Material.TNT, 1);
-            NamespacedKey TNTKey = new NamespacedKey(plugin, "paper_tnt");
-            ShapedRecipe TNTRecipe = new ShapedRecipe(TNTKey, TNT);
-            TNTRecipe.shape("PSP", "SGS", "PSP");
-            TNTRecipe.setIngredient('P', Material.PAPER);
-            TNTRecipe.setIngredient('S', Material.SAND);
-            TNTRecipe.setIngredient('G', Material.GUNPOWDER);
-            Bukkit.addRecipe(TNTRecipe);
-            recipeKeys.add(TNTKey);
-        }
-
-        if (plugin.getConfig().getBoolean("recipes.craftable-spore-blossom")) {
-            ItemStack sporeBlossom = new ItemStack(Material.SPORE_BLOSSOM, 1);
-            NamespacedKey sporeBlossomKey = new NamespacedKey(plugin, "spore_blossom");
-            ShapedRecipe sporeBlossomRecipe = new ShapedRecipe(sporeBlossomKey, sporeBlossom);
-            sporeBlossomRecipe.shape("  M", " L ", "XXX");
-            sporeBlossomRecipe.setIngredient('M', Material.MOSS_BLOCK);
-            sporeBlossomRecipe.setIngredient('L', Material.LILAC);
-            Bukkit.addRecipe(sporeBlossomRecipe);
-            recipeKeys.add(sporeBlossomKey);
-        }
-
-        if (plugin.getConfig().getBoolean("recipes.craftable-experience-bottle")) {
-            ItemStack experienceBottle = new ItemStack(Material.EXPERIENCE_BOTTLE, 1);
-            NamespacedKey experienceBottleKey = new NamespacedKey(plugin, "experience-bottle");
-            ShapedRecipe experienceBottleRecipe = new ShapedRecipe(experienceBottleKey, experienceBottle);
-            experienceBottleRecipe.shape(" G ", "GLG", " G ");
-            experienceBottleRecipe.setIngredient('G', Material.GLASS_PANE);
-            experienceBottleRecipe.setIngredient('L', Material.LAPIS_LAZULI);
-            Bukkit.addRecipe(experienceBottleRecipe);
-            recipeKeys.add(experienceBottleKey);
-        }
-
-        if (plugin.getConfig().getBoolean("recipes.craftable-sculk-sensor")) {
-            ItemStack sculkSensor = new ItemStack(Material.SCULK_SENSOR, 1);
-            NamespacedKey sculkSensorKey = new NamespacedKey(plugin, "sculk-sensor");
-            ShapedRecipe sculkSensorRecipe = new ShapedRecipe(sculkSensorKey, sculkSensor);
-            sculkSensorRecipe.shape("   ", "DHD", "OOO");
-            sculkSensorRecipe.setIngredient('H', Material.HAY_BLOCK);
-            sculkSensorRecipe.setIngredient('D', Material.DIAMOND);
-            sculkSensorRecipe.setIngredient('O', Material.OBSIDIAN);
-            Bukkit.addRecipe(sculkSensorRecipe);
-            recipeKeys.add(sculkSensorKey);
-        }
-
-
-        for (Player player : Bukkit.getOnlinePlayers())
-            for (NamespacedKey key : recipeKeys)
-                player.discoverRecipe(key);
-
-    }
 
     @Override
     public void onEnable() {
@@ -136,7 +58,8 @@ public final class DoubleLife extends JavaPlugin {
         BlockBannedItems.startKillVillagersLoop();
 
         recipeKeys = new ArrayList<>();
-        createRecipes();
+        Recipes.createRecipes();
+
 
         /*new UpdateChecker(plugin, 106141).getVersion(version -> {
             if (this.getDescription().getVersion().equals(version)) {
