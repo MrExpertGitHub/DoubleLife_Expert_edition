@@ -13,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +23,29 @@ public class PairHealth implements Listener {
     List<UUID> justHadALifeRemoved = new ArrayList<>();
     List<UUID> soulmateDiedWhileOffline = new ArrayList<>();
 
+
+    Integer redLiveStartsIn = DoubleLife.plugin.getConfig().getInt("lives.red-live-start-in");
+    Integer yellowLiveStartsIn = DoubleLife.plugin.getConfig().getInt("lives.yellow-live-start-in");
+    Integer limeLiveStartsIn = DoubleLife.plugin.getConfig().getInt("lives.lime-live-start-in");
+    Integer maxLives = DoubleLife.plugin.getConfig().getInt("lives.max-lives");
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void removeLifeOnDeath(PlayerDeathEvent event){
         Player playerWhoDied = event.getEntity();
+        Player soulmate = SaveHandler.getSoulmate(playerWhoDied);
+
         if (soulmateDiedWhileOffline.contains(playerWhoDied.getUniqueId())) {
-            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
-                soulmateDiedWhileOffline.remove(playerWhoDied.getUniqueId());
-            }, 5);
-            event.setDeathMessage(ChatColor.BOLD + playerWhoDied.getPlayerListName() + " was killed because their soulmate died while they were offline!");
+            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> soulmateDiedWhileOffline.remove(playerWhoDied.getUniqueId()), 5);
+            event.setDeathMessage(ChatColor.BOLD + playerWhoDied.getDisplayName() + " was killed because their soulmate died while they were offline!");
             return;
         }
 
-        Player soulmate = SaveHandler.getSoulmate(playerWhoDied);
+        if (soulmate != null) {
+            if (soulmate == playerWhoDied.getKiller()) {
+                event.setDeathMessage(event.getDeathMessage() + ChatColor.RED + ChatColor.BOLD + " Friendly fire!");
+            }
+        }
+
         if (justHadALifeRemoved.contains(playerWhoDied.getUniqueId()))
             return;
         justHadALifeRemoved.add(playerWhoDied.getUniqueId());
@@ -54,13 +64,23 @@ public class PairHealth implements Listener {
         }, 20);
 
         int currentLivesAmount = SaveHandler.getPairLivesAmount(playerWhoDied);
-        SaveHandler.setPairLivesAmount(playerWhoDied, (currentLivesAmount - 1));
 
         if (currentLivesAmount - 1 == 0) {
+            if (soulmate != null) {
+                soulmate.setHealth(0);
+            }
             Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
-                if (soulmate != null) {
-                    soulmate.setHealth(0);
-                    Bukkit.broadcastMessage(ChatColor.GRAY + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.GRAY + soulmate.getPlayerListName() + ChatColor.RESET + " run out of lifes!");
+                playerWhoDied.sendTitle(ChatColor.BOLD + "" + ChatColor.RED + "You run out of lives!", null, 10, 100, 10);
+                if (soulmate == null) {
+                    Bukkit.broadcastMessage(ChatColor.GRAY + playerWhoDied.getDisplayName() + ChatColor.RESET + " run out of lives!");
+                } else {
+                    soulmate.sendTitle(ChatColor.BOLD + "" + ChatColor.RED + "You run out of lives!", null, 10, 100, 10);
+                    Bukkit.broadcastMessage(ChatColor.GRAY + playerWhoDied.getDisplayName() + ChatColor.RESET + " and " + ChatColor.GRAY + soulmate.getDisplayName() + ChatColor.RESET + " run out of lives!");
+
+//                    for (ItemStack itemStack : soulmate.getInventory().getArmorContents()) {
+//                        soulmate.getWorld().dropItemNaturally(soulmate.getLocation(), itemStack);
+//                        soulmate.getInventory().removeItem(itemStack);
+//                    }
                 }
             }, 20);
 
@@ -70,21 +90,33 @@ public class PairHealth implements Listener {
                     player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 10, 1);
             }
         }
-        if (currentLivesAmount -1 <= DoubleLife.plugin.getConfig().getInt("lives.red-live-start-in")) {
+        if (currentLivesAmount - 1 == redLiveStartsIn) {
             Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
-                Bukkit.broadcastMessage(ChatColor.RED + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.RED + soulmate.getPlayerListName() + ChatColor.RESET + " joined the " + ChatColor.BOLD + ChatColor.RED + "REDS" + ChatColor.RESET +"!");
+                if (soulmate == null) {
+                    Bukkit.broadcastMessage(ChatColor.RED + playerWhoDied.getDisplayName() + ChatColor.RESET + " joined the " + ChatColor.BOLD + ChatColor.RED + "REDS" + ChatColor.RESET + "!");
+                } else {
+                    Bukkit.broadcastMessage(ChatColor.RED + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.RED + soulmate.getDisplayName() + ChatColor.RESET + " joined the " + ChatColor.BOLD + ChatColor.RED + "REDS" + ChatColor.RESET + "!");
+                }
+            }, 5);
+        } else if (currentLivesAmount - 1 == yellowLiveStartsIn) {
+            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
+                if (soulmate == null) {
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + playerWhoDied.getDisplayName() + ChatColor.RESET + " turned " + ChatColor.BOLD + ChatColor.YELLOW + "YELLOW" + ChatColor.RESET + "!");
+                } else {
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + playerWhoDied.getDisplayName() + ChatColor.RESET + " and " + ChatColor.YELLOW + soulmate.getDisplayName() + ChatColor.RESET + " turned " + ChatColor.BOLD + ChatColor.YELLOW + "YELLOW" + ChatColor.RESET + "!");
+                }
+            }, 5);
+        } else if (currentLivesAmount - 1 == limeLiveStartsIn) {
+            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
+                if (soulmate == null) {
+                    Bukkit.broadcastMessage(ChatColor.GREEN + playerWhoDied.getDisplayName() + ChatColor.RESET + " doesn't have 6 lives anymore!");
+                } else {
+                    Bukkit.broadcastMessage(ChatColor.GREEN + playerWhoDied.getDisplayName() + ChatColor.RESET + " and " + ChatColor.GREEN + soulmate.getDisplayName() + ChatColor.RESET + " doesn't have 6 lives anymore!");
+                }
             }, 5);
         }
-        else if (currentLivesAmount -1 <= DoubleLife.plugin.getConfig().getInt("lives.yellow-live-start-in")) {
-            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
-                Bukkit.broadcastMessage(ChatColor.YELLOW + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.YELLOW + soulmate.getPlayerListName() + ChatColor.RESET + " turned " + ChatColor.BOLD + ChatColor.YELLOW + "YELLOW" + ChatColor.RESET +"!");
-            }, 5);
-        }
-        else if (currentLivesAmount -1 <= DoubleLife.plugin.getConfig().getInt("lives.lime-live-start-in")) {
-            Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
-                Bukkit.broadcastMessage(ChatColor.GREEN + playerWhoDied.getPlayerListName() + ChatColor.RESET + " and " + ChatColor.GREEN + soulmate.getPlayerListName() + ChatColor.RESET + " lost their first life!");
-            }, 5);
-        }
+
+        SaveHandler.setPairLivesAmount(playerWhoDied, (currentLivesAmount - 1));
         SaveHandler.setPairHealth(playerWhoDied, 20.0);
     }
 

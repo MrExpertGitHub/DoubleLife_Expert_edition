@@ -107,7 +107,7 @@ public final class DoubleLife extends JavaPlugin {
 
     }
 
-    public class mainTabCompleter implements TabCompleter {
+    public static class mainTabCompleter implements TabCompleter {
 
         @Override
         public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
