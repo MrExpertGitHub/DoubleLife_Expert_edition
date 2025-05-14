@@ -50,39 +50,48 @@ public class randomizePairs {
 
         availablePlayers.forEach(playerUUID -> {
             Player player = Bukkit.getPlayer(playerUUID);
-            if (player != null)
+            if (player != null) {
                 player.sendTitle(ChatColor.GREEN + "Your soulmate is..", null, 10, 100, 10);
+                player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, 1, 1);
+                Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, 1, 1), 10);
+                Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, 1, 1), 30);
+                Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, 1, 1), 38);
+                Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, 1, 1), 54);
+                Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> player.playSound(player, Sound.ENTITY_WARDEN_HEARTBEAT, 1, 1), 60);
+            }
         });
 
-        Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
-            Random r = new Random();
-            while (availablePlayers.size() > 1){
-                UUID playerOneUUID = availablePlayers.get(r.nextInt(availablePlayers.size()));
-                UUID playerTwoUUID = availablePlayers.get(r.nextInt(availablePlayers.size()));
-                if (playerOneUUID != playerTwoUUID) {
-                    availablePlayers.remove(playerOneUUID);
-                    availablePlayers.remove(playerTwoUUID);
-                    SaveHandler.createPair(playerOneUUID, playerTwoUUID, DoubleLife.plugin.getConfig().getInt("lives.max-lives"));
 
-                    Player playerOne = Bukkit.getPlayer(playerOneUUID);
-                    Player playerTwo = Bukkit.getPlayer(playerTwoUUID);
-                    if (playerOne != null && playerTwo != null) {
+        Random r = new Random();
+        while (availablePlayers.size() > 1) {
+            UUID playerOneUUID = availablePlayers.get(r.nextInt(availablePlayers.size()));
+            UUID playerTwoUUID = availablePlayers.get(r.nextInt(availablePlayers.size()));
+            if (playerOneUUID != playerTwoUUID) {
+                availablePlayers.remove(playerOneUUID);
+                availablePlayers.remove(playerTwoUUID);
+                SaveHandler.createPair(playerOneUUID, playerTwoUUID, DoubleLife.plugin.getConfig().getInt("lives.max-lives"));
+
+                Player playerOne = Bukkit.getPlayer(playerOneUUID);
+                Player playerTwo = Bukkit.getPlayer(playerTwoUUID);
+                if (playerOne != null && playerTwo != null) {
+                    Bukkit.getScheduler().runTaskLater(DoubleLife.plugin, () -> {
                         if (DoubleLife.plugin.getConfig().getBoolean("soulmates.reveal-soulmates")) {
+                            playerOne.playSound(playerOne, Sound.ENTITY_WARDEN_SONIC_BOOM, 1, 1);
                             playerOne.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + playerTwo.getName(), null, 10, 100, 10);
-                            playerOne.playSound(playerOne, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
+                            playerTwo.playSound(playerTwo, Sound.ENTITY_WARDEN_SONIC_BOOM, 1, 1);
                             playerTwo.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + playerOne.getName(), null, 10, 100, 10);
-                            playerTwo.playSound(playerTwo, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
                         } else {
-                            playerOne.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + "????", null, 10, 100, 10);
                             playerOne.playSound(playerOne, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
-                            playerTwo.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + "????", null, 10, 100, 10);
+                            playerOne.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + "????", null, 10, 100, 10);
                             playerTwo.playSound(playerTwo, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
+                            playerTwo.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + "????", null, 10, 100, 10);
                         }
-                    }
+                    }, 92);
                 }
             }
             rolling = false;
-        }, 100);
+        }
+
 
         Bukkit.broadcastMessage(ChatColor.DARK_GREEN + ChatColor.BOLD.toString() + "Randomizing soulmates!");
         return true;
