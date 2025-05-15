@@ -115,6 +115,17 @@ public class Recipes {
             DoubleLife.recipeKeys.add(gravelKey);
         }
 
+        if (DoubleLife.plugin.getConfig().getBoolean("recipes.craftable-honey-bottle")) {
+            ItemStack honeyBottle = new ItemStack(Material.HONEY_BOTTLE, 1);
+            NamespacedKey honeyBottleKey = new NamespacedKey(DoubleLife.plugin, "honey-bottle");
+            ShapelessRecipe honeyBottleRecipe = new ShapelessRecipe(honeyBottleKey, honeyBottle);
+            honeyBottleRecipe.addIngredient(Material.GOLD_NUGGET);
+            honeyBottleRecipe.addIngredient(Material.GOLD_NUGGET);
+            honeyBottleRecipe.addIngredient(Material.GLASS_BOTTLE);
+            Bukkit.addRecipe(honeyBottleRecipe);
+            DoubleLife.recipeKeys.add(honeyBottleKey);
+        }
+
         for (Player player : Bukkit.getOnlinePlayers())
             for (NamespacedKey key : DoubleLife.recipeKeys)
                 player.discoverRecipe(key);
