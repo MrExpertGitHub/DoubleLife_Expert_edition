@@ -114,6 +114,9 @@ soulmates:
   ## Links the effects of the plays, so if one of them gets one, the other also does
   link-effects: false
 
+  ## Broadcasts a message to chat if a player changes color
+  broadcast-color-change: true
+
 
 ####### Miscellaneous #########################################################################################
 #### A section for settings which don't fall under another category.
